@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% set active = 'filmai' %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>Filmai</h2>
+    <p class="sub">Reitingas skaičiuojamas iš patvirtintų apžvalgų balų vidurkio.</p>
+  </div>
+  {% if pareigos == 'Klientų aptarnavimo specialistas' %}
+  <a class="btn gold" href="{{ url_for('nauja_apzvalga') }}">Nauja apžvalga</a>
+  {% endif %}
+</div>
+<div class="stats">
+  <div class="stat"><span>Filmų repertuare</span><strong>{{ stats.filmu }}</strong></div>
+  <div class="stat"><span>Laukia moderavimo</span><strong>{{ stats.laukia }}</strong></div>
+  <div class="stat"><span>Vidutinis reitingas</span><strong>{{ stats.vidurkis|reitingas }}</strong></div>
+</div>
+<form class="toolbar" method="get">
+  <input name="q" value="{{ q }}" placeholder="Ieškoti pagal pavadinimą, režisierių ar žanrą" style="flex:1">
+  <button class="btn" type="submit">Ieškoti</button>
+</form>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Filmas</th><th>Žanras</th><th>Režisierius</th><th>Metai</th><th>Trukmė</th><th>Reitingas</th><th>Patvirtintos</th><th>Laukia</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for f in filmai %}
+      <tr>
+        <td><a href="{{ url_for('filmas', filmo_id=f.filmo_id) }}"><strong>{{ f.pavadinimas }}</strong></a></td>
+        <td>{{ f.zanras }}</td>
+        <td>{{ f.rezisierius }}</td>
+        <td>{{ f.isleidimo_metai }}</td>
+        <td>{{ f.trukme_min }} min</td>
+        <td class="rating">{{ f.reitingas|reitingas }}</td>
+        <td>{{ f.patvirtintos }}</td>
+        <td>{{ f.laukia }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="8">Filmų pagal šią paiešką nėra.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

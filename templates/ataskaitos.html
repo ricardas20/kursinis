@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% set active = 'ataskaitos' %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>Marketingo ataskaitos</h2>
+    <p class="sub">Ataskaita fiksuoja sudarymo metu buvusį reitingą ir patvirtintų apžvalgų skaičių. Vėlesni vertinimai jos nekeičia.</p>
+  </div>
+</div>
+<form class="card" method="post">
+  <div class="grid">
+    <div class="span-2">
+      <label for="pavadinimas">Pavadinimas</label>
+      <input id="pavadinimas" name="pavadinimas" required style="width:100%" value="Geriausiai įvertinti filmai">
+    </div>
+    <div>
+      <label for="tipas">Rikiavimas</label>
+      <select id="tipas" name="tipas">
+        <option value="reitingas">Pagal reitingą</option>
+        <option value="populiarumas">Pagal apžvalgų skaičių</option>
+      </select>
+    </div>
+    <div></div>
+    <div>
+      <label for="nuo">Laikotarpis nuo</label>
+      <input id="nuo" name="nuo" type="date" required value="2026-10-01">
+    </div>
+    <div>
+      <label for="iki">Laikotarpis iki</label>
+      <input id="iki" name="iki" type="date" required value="2026-10-31">
+    </div>
+  </div>
+  <div class="actions"><button class="btn gold" type="submit">Sudaryti ataskaitą</button></div>
+</form>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Pavadinimas</th><th>Laikotarpis</th><th>Sudaryta</th><th>Darbuotojas</th></tr></thead>
+    <tbody>
+      {% for a in ataskaitos %}
+      <tr>
+        <td><a href="{{ url_for('ataskaita', ataskaitos_id=a.ataskaitos_id) }}"><strong>{{ a.pavadinimas }}</strong></a></td>
+        <td>{{ a.laikotarpis_nuo }} – {{ a.laikotarpis_iki }}</td>
+        <td>{{ a.sudarymo_data }}</td>
+        <td>{{ a.vardas }} {{ a.pavarde }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

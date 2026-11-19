@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% set active = 'apzvalgos' %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>Apžvalgos</h2>
+    <p class="sub">Redaguoti galima tik dar nepublikuotas apžvalgas. Po pataisymo jos vėl laukia moderavimo.</p>
+  </div>
+  <a class="btn gold" href="{{ url_for('nauja_apzvalga') }}">Nauja apžvalga</a>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Filmas</th><th>Žiūrovas</th><th>Balas</th><th>Būsena</th><th>Pateikta</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for a in apzvalgos %}
+      <tr>
+        <td>{{ a.filmas }}</td>
+        <td>{{ a.vardas }} {{ a.pavarde }}<br><span class="note">{{ a.naudotojo_vardas }}</span></td>
+        <td class="rating">{{ a.balas }}</td>
+        <td>
+          {% if a.busena == 'patvirtinta' %}<span class="badge ok">patvirtinta</span>
+          {% elif a.busena == 'atmesta' %}<span class="badge bad">atmesta</span>
+          {% else %}<span class="badge wait">laukia moderavimo</span>{% endif %}
+          {% if a.moderatoriaus_pastabos %}<div class="note">{{ a.moderatoriaus_pastabos }}</div>{% endif %}
+        </td>
+        <td>{{ a.pateikimo_data|data }}</td>
+        <td>
+          {% if a.busena != 'patvirtinta' %}
+          <a class="btn small ghost" href="{{ url_for('redaguoti_apzvalga', apzvalgos_id=a.apzvalgos_id) }}">Redaguoti</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% set active = 'ataskaitos' %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>{{ ataskaita.pavadinimas }}</h2>
+    <p class="sub">Laikotarpis {{ ataskaita.laikotarpis_nuo }} – {{ ataskaita.laikotarpis_iki }} · sudarė {{ ataskaita.vardas }} {{ ataskaita.pavarde }} · {{ ataskaita.sudarymo_data }}</p>
+  </div>
+  <a class="btn ghost" href="{{ url_for('ataskaitos') }}">Visos ataskaitos</a>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Vieta</th><th>Filmas</th><th>Reitingas sudarymo metu</th><th>Patvirtintų apžvalgų</th></tr></thead>
+    <tbody>
+      {% for i in irasai %}
+      <tr>
+        <td>{{ i.vieta }}</td>
+        <td>{{ i.pavadinimas }}</td>
+        <td class="rating">{{ i.reitingas|reitingas }}</td>
+        <td>{{ i.apzvalgu_skaicius }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

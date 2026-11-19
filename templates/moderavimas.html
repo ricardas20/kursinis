@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set active = 'moderavimas' %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>Apžvalgų moderavimas</h2>
+    <p class="sub">Patvirtinus apžvalgą ji publikuojama, o filmo reitingas perskaičiuojamas. Atmetus būtina įrašyti pastabas.</p>
+  </div>
+</div>
+{% for a in apzvalgos %}
+<form class="card" method="post" action="{{ url_for('moderuoti', apzvalgos_id=a.apzvalgos_id) }}">
+  <div class="meta" style="color:#5c6573;font-size:13px">{{ a.pateikimo_data|data }} · {{ a.vardas }} {{ a.pavarde }}</div>
+  <h3 style="margin:4px 0">{{ a.filmas }} · balas {{ a.balas }}</h3>
+  <p>{{ a.tekstas }}</p>
+  <label for="pastabos-{{ a.apzvalgos_id }}">Moderatoriaus pastabos (privalomos tik atmetant)</label>
+  <textarea id="pastabos-{{ a.apzvalgos_id }}" name="pastabos" style="min-height:70px"></textarea>
+  <div class="actions">
+    <button class="btn ok" name="veiksmas" value="patvirtinti" type="submit">Patvirtinti ir publikuoti</button>
+    <button class="btn bad" name="veiksmas" value="atmesti" type="submit">Atmesti</button>
+  </div>
+</form>
+{% else %}
+<div class="card">Šiuo metu nėra apžvalgų, laukiančių moderavimo.</div>
+{% endfor %}
+{% endblock %}

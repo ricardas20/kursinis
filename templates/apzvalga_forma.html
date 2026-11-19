@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% set active = 'apzvalgos' %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>{% if apzvalga and apzvalga.apzvalgos_id %}Apžvalgos redagavimas{% else %}Nauja apžvalga{% endif %}</h2>
+    <p class="sub">Įvesta apžvalga iš karto nepublikuojama. Ją turi patvirtinti apžvalgų moderatorius.</p>
+  </div>
+</div>
+<form class="card" method="post">
+  <div class="grid">
+    <div>
+      <label for="filmo_id">Filmas</label>
+      <select id="filmo_id" name="filmo_id" required>
+        {% for f in filmai %}
+        <option value="{{ f.filmo_id }}" {% if apzvalga and apzvalga.filmo_id == f.filmo_id %}selected{% endif %}>{{ f.pavadinimas }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="ziurovo_id">Žiūrovas</label>
+      <select id="ziurovo_id" name="ziurovo_id" required>
+        {% for z in ziurovai %}
+        <option value="{{ z.ziurovo_id }}" {% if apzvalga and apzvalga.ziurovo_id == z.ziurovo_id %}selected{% endif %}>{{ z.vardas }} {{ z.pavarde }} ({{ z.naudotojo_vardas }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="balas">Balas (1–10)</label>
+      <input id="balas" name="balas" type="number" min="1" max="10" required value="{{ apzvalga.balas if apzvalga and apzvalga.balas else 8 }}">
+    </div>
+    <div class="span-2">
+      <label for="tekstas">Apžvalgos tekstas</label>
+      <textarea id="tekstas" name="tekstas" required>{{ apzvalga.tekstas if apzvalga and apzvalga.tekstas else '' }}</textarea>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn gold" type="submit">Išsaugoti</button>
+    <a class="btn ghost" href="{{ url_for('apzvalgos') }}">Atšaukti</a>
+  </div>
+</form>
+{% endblock %}

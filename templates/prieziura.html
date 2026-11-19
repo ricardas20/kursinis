@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% set active = 'prieziura' %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>Duomenų priežiūra</h2>
+    <p class="sub">Žanrai, filmai, žiūrovai ir darbuotojų paskyros. Šiuos duomenis tvarko marketingo vadybininkas.</p>
+  </div>
+</div>
+<div class="split">
+  <form class="card" method="post">
+    <h3 style="margin-top:0">Naujas filmas</h3>
+    <input type="hidden" name="veiksmas" value="filmas">
+    <label>Pavadinimas</label>
+    <input name="pavadinimas" required style="width:100%">
+    <label>Režisierius</label>
+    <input name="rezisierius" required style="width:100%">
+    <div class="grid">
+      <div><label>Metai</label><input name="metai" type="number" min="1888" max="2100" required value="2026"></div>
+      <div><label>Trukmė, min</label><input name="trukme" type="number" min="1" required value="110"></div>
+    </div>
+    <label>Žanras</label>
+    <select name="zanro_id">{% for z in zanrai %}<option value="{{ z.zanro_id }}">{{ z.pavadinimas }}</option>{% endfor %}</select>
+    <div class="actions"><button class="btn" type="submit">Įrašyti filmą</button></div>
+  </form>
+  <form class="card" method="post">
+    <h3 style="margin-top:0">Naujas žanras</h3>
+    <input type="hidden" name="veiksmas" value="zanras">
+    <label>Pavadinimas</label>
+    <input name="pavadinimas" required style="width:100%">
+    <div class="actions"><button class="btn" type="submit">Įrašyti žanrą</button></div>
+    <p class="note">Jau įrašyti: {% for z in zanrai %}{{ z.pavadinimas }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+  </form>
+</div>
+<div class="split">
+  <form class="card" method="post">
+    <h3 style="margin-top:0">Naujas žiūrovas</h3>
+    <input type="hidden" name="veiksmas" value="ziurovas">
+    <div class="grid">
+      <div><label>Vardas</label><input name="vardas" required></div>
+      <div><label>Pavardė</label><input name="pavarde" required></div>
+      <div><label>Naudotojo vardas</label><input name="naudotojo_vardas" required></div>
+      <div><label>El. paštas</label><input name="el_pastas" type="email" required></div>
+    </div>
+    <div class="actions"><button class="btn" type="submit">Įrašyti žiūrovą</button></div>
+  </form>
+  <form class="card" method="post">
+    <h3 style="margin-top:0">Naujas darbuotojas</h3>
+    <input type="hidden" name="veiksmas" value="darbuotojas">
+    <div class="grid">
+      <div><label>Vardas</label><input name="vardas" required></div>
+      <div><label>Pavardė</label><input name="pavarde" required></div>
+      <div class="span-2"><label>Pareigos</label>
+        <select name="pareigos">{% for p in pareigu_sarasas %}<option>{{ p }}</option>{% endfor %}</select>
+      </div>
+      <div><label>Prisijungimo vardas</label><input name="prisijungimo_vardas" required></div>
+      <div><label>Slaptažodis</label><input name="slaptazodis" type="password" required></div>
+      <div class="span-2"><label>El. paštas</label><input name="el_pastas" type="email" required style="width:100%"></div>
+    </div>
+    <div class="actions"><button class="btn" type="submit">Sukurti paskyrą</button></div>
+  </form>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Darbuotojas</th><th>Pareigos</th><th>Prisijungimo vardas</th><th>El. paštas</th></tr></thead>
+    <tbody>
+      {% for d in darbuotojai %}
+      <tr>
+        <td>{{ d.vardas }} {{ d.pavarde }}</td>
+        <td>{{ d.pareigos }}</td>
+        <td>{{ d.prisijungimo_vardas }}</td>
+        <td>{{ d.el_pastas }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+services:
+  filmu-apzvalgos:
+    build: .
+    ports:
+      - "5055:5055"
+    volumes:
+      - filmu-duomenys:/data
+
+volumes:
+  filmu-duomenys:

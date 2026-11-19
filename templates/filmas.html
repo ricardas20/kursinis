@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% set active = 'filmai' %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>{{ filmas.pavadinimas }}</h2>
+    <p class="sub">{{ filmas.zanras }} · {{ filmas.rezisierius }} · {{ filmas.isleidimo_metai }} · {{ filmas.trukme_min }} min</p>
+  </div>
+  <a class="btn ghost" href="{{ url_for('filmai') }}">Atgal į sąrašą</a>
+</div>
+<div class="split">
+  <div class="card">
+    <h3 style="margin-top:0">Publikuotos apžvalgos</h3>
+    {% for a in apzvalgos %}
+    <article class="review">
+      <div class="meta">{{ a.vardas }} {{ a.pavarde }} · balas {{ a.balas }} · publikuota {{ a.publikavimo_data|data }}</div>
+      <div>{{ a.tekstas }}</div>
+    </article>
+    {% else %}
+    <p class="note">Patvirtintų apžvalgų dar nėra.</p>
+    {% endfor %}
+  </div>
+  <div class="card">
+    <div class="note">Filmo reitingas</div>
+    <div class="hero-rating">{{ filmas.reitingas|reitingas }}</div>
+    <p class="note">Vidurkis iš {{ apzvalgos|length }} patvirtintų apžvalgų. Atmestos ir dar nemoderuotos apžvalgos reitingo nekeičia.</p>
+    {% if pareigos == 'Klientų aptarnavimo specialistas' %}
+    <a class="btn gold" href="{{ url_for('nauja_apzvalga') }}">Įvesti apžvalgą</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

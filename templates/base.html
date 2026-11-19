@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Filmų apžvalgos sistema{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <div>
+        <h1>UAB „FORUM CINEMAS“</h1>
+        <p>Filmų apžvalgos sistema</p>
+      </div>
+      <div class="who">
+        <strong>{{ darbuotojas }}</strong><br>
+        {{ pareigos }} · <a href="{{ url_for('logout') }}">Atsijungti</a>
+      </div>
+    </div>
+    <nav>
+      <a href="{{ url_for('filmai') }}" class="{{ 'active' if active == 'filmai' else '' }}">Filmai</a>
+      {% if pareigos == 'Klientų aptarnavimo specialistas' %}
+      <a href="{{ url_for('apzvalgos') }}" class="{{ 'active' if active == 'apzvalgos' else '' }}">Apžvalgos</a>
+      {% endif %}
+      {% if pareigos == 'Apžvalgų moderatorius' %}
+      <a href="{{ url_for('moderavimas') }}" class="{{ 'active' if active == 'moderavimas' else '' }}">Moderavimas</a>
+      {% endif %}
+      {% if pareigos == 'Marketingo vadybininkas' %}
+      <a href="{{ url_for('ataskaitos') }}" class="{{ 'active' if active == 'ataskaitos' else '' }}">Ataskaitos</a>
+      <a href="{{ url_for('prieziura') }}" class="{{ 'active' if active == 'prieziura' else '' }}">Priežiūra</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

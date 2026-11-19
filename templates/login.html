@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="utf-8">
+  <title>Prisijungimas · Filmų apžvalgos sistema</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="login-wrap">
+    <form class="login" method="post">
+      <h1>UAB „FORUM CINEMAS“</h1>
+      <h2>Filmų apžvalgos sistema</h2>
+      <p class="sub">Prisijunkite darbuotojo vardu. Žiūrovai sistemoje neregistruojami patys – jų apžvalgas įveda klientų aptarnavimo specialistas.</p>
+      {% with messages = get_flashed_messages() %}
+        {% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}
+      {% endwith %}
+      <label for="vardas">Prisijungimo vardas</label>
+      <input id="vardas" name="vardas" autocomplete="username" required style="width:100%">
+      <label for="slaptazodis">Slaptažodis</label>
+      <input id="slaptazodis" name="slaptazodis" type="password" autocomplete="current-password" required style="width:100%">
+      <div class="hint">
+        Demonstracinės paskyros, slaptažodis visoms <strong>Apzvalga2026</strong>:<br>
+        specialistas · moderatorius · vadybininkas
+      </div>
+      <div class="actions"><button class="btn" type="submit">Prisijungti</button></div>
+    </form>
+  </div>
+</body>
+</html>
